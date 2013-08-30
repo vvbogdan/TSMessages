@@ -159,9 +159,14 @@ __weak static UIViewController *_defaultViewController;
     {
         if (![(UINavigationController *)currentView.viewController isNavigationBarHidden])
         {
-            [currentView.viewController.view insertSubview:currentView
-                                              belowSubview:[(UINavigationController *)currentView.viewController navigationBar]];
-            verticalOffset = [(UINavigationController *)currentView.viewController navigationBar].bounds.size.height;
+            if (currentView.messagePosition == TSMessageNotificationPositionTopOverNavigationBar) {
+                [currentView.viewController.view insertSubview:currentView
+                                                  aboveSubview:[(UINavigationController *)currentView.viewController navigationBar]];
+            } else {
+                [currentView.viewController.view insertSubview:currentView
+                                                  belowSubview:[(UINavigationController *)currentView.viewController navigationBar]];
+                verticalOffset = [(UINavigationController *)currentView.viewController navigationBar].bounds.size.height; 
+            }
             
             if (UIInterfaceOrientationIsPortrait([[UIApplication sharedApplication] statusBarOrientation]))
             {
@@ -183,7 +188,7 @@ __weak static UIViewController *_defaultViewController;
     }
     
     CGPoint toPoint;
-    if (currentView.messagePosition == TSMessageNotificationPositionTop)
+    if (currentView.messagePosition == TSMessageNotificationPositionTop || currentView.messagePosition == TSMessageNotificationPositionTopOverNavigationBar)
     {
         CGFloat navigationbarBottomOfViewController = 0;
         
@@ -254,7 +259,7 @@ __weak static UIViewController *_defaultViewController;
                                                object:currentView];
     
     CGPoint fadeOutToPoint;
-    if (currentView.messagePosition == TSMessageNotificationPositionTop)
+    if (currentView.messagePosition == TSMessageNotificationPositionTop || currentView.messagePosition == TSMessageNotificationPositionTopOverNavigationBar)
     {
         fadeOutToPoint = CGPointMake(currentView.center.x, -CGRectGetHeight(currentView.frame)/2.f);
     }

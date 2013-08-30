@@ -61,7 +61,7 @@
                                      [TSMessage showNotificationWithTitle:NSLocalizedString(@"Thanks for updating", nil)
                                                                      type:TSMessageNotificationTypeSuccess];
                                  }
-                                     atPosition:TSMessageNotificationPositionTop
+                                     atPosition:TSMessageNotificationPositionTopOverNavigationBar
                             canBeDismisedByUser:YES];
 }
 
