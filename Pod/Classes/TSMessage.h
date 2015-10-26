@@ -196,7 +196,7 @@ typedef NS_ENUM(NSInteger,TSMessageNotificationDuration) {
 + (BOOL)iOS7StyleEnabled;
 
 /** Always use background image instead of blur */
-+ (void)shouldUseBackgroundImage:(BOOL)useBackgroundImage;
++ (void)useBackgroundImageInsteadOfBlur:(BOOL)useBackgroundImage;
 + (BOOL)useBackgroundImageInsteadOfBlur;
 
 

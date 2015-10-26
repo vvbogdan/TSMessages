@@ -19,7 +19,7 @@
     
     [TSMessage setDefaultViewController:self];
     [TSMessage setDelegate:self];
-    [TSMessage shouldUseBackgroundImage:YES];
+    [TSMessage useBackgroundImageInsteadOfBlur:YES];
     
     self.wantsFullScreenLayout = YES;
     [self.navigationController.navigationBar setTranslucent:YES];

@@ -279,7 +279,7 @@ __weak static UIViewController *_defaultViewController;
         currentView.messageIsFullyDisplayed = YES;
     };
     
-    if (![TSMessage iOS7StyleEnabled]) {
+    if (![TSMessage iOS7StyleEnabled] || [TSMessage useBackgroundImageInsteadOfBlur]) {
         [UIView animateWithDuration:kTSMessageAnimationDuration
                               delay:0.0
                             options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionBeginFromCurrentState | UIViewAnimationOptionAllowUserInteraction
@@ -453,7 +453,7 @@ __weak static UIViewController *_defaultViewController;
 }
 
 
-+ (void)shouldUseBackgroundImage:(BOOL)useBackgroundImage {
++ (void)useBackgroundImageInsteadOfBlur:(BOOL)useBackgroundImage {
     _useBackgroundImage = useBackgroundImage;
 }
 

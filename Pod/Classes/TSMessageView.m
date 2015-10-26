@@ -254,13 +254,13 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         if (![TSMessage iOS7StyleEnabled] || [TSMessage useBackgroundImageInsteadOfBlur])
         {
             self.alpha = [TSMessage useBackgroundImageInsteadOfBlur] ? 1.0 : 0.0;
-
+            
             // add background image here
             UIImage *backgroundImage = [self bundledImageNamed:[current valueForKey:@"backgroundImageName"]];
-            backgroundImage = [backgroundImage stretchableImageWithLeftCapWidth:0.0 topCapHeight:0.0];
-
+            backgroundImage = [backgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 10, 0)];
+            
             _backgroundImageView = [[UIImageView alloc] initWithImage:backgroundImage];
-            self.backgroundImageView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+            self.backgroundImageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
             [self addSubview:self.backgroundImageView];
         }
         else
@@ -522,7 +522,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
                                         currentHeight);
 
     // increase frame of background view because of the spring animation
-    if ([TSMessage iOS7StyleEnabled])
+    if ([TSMessage iOS7StyleEnabled] && ![TSMessage useBackgroundImageInsteadOfBlur])
     {
         if (self.messagePosition == TSMessageNotificationPositionTop)
         {
