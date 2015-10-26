@@ -451,4 +451,10 @@ __weak static UIViewController *_defaultViewController;
     return _useiOS7Style;
 }
 
+
++ (void)enableiOS7Style:(BOOL)enabled {
+    [TSMessage iOS7StyleEnabled]; // call
+    _useiOS7Style = enabled;
+}
+
 @end
