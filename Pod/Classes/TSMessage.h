@@ -194,7 +194,11 @@ typedef NS_ENUM(NSInteger,TSMessageNotificationDuration) {
 /** Indicates whether currently the iOS 7 style of TSMessages is used
  This depends on the Base SDK and the currently used device */
 + (BOOL)iOS7StyleEnabled;
-+ (void)enableiOS7Style:(BOOL)enabled;
+
+/** Always use background image instead of blur */
++ (void)shouldUseBackgroundImage:(BOOL)useBackgroundImage;
++ (BOOL)useBackgroundImageInsteadOfBlur;
+
 
 /** Indicates whether the current navigationBar is hidden by isNavigationBarHidden 
  on the UINavigationController or isHidden on the navigationBar of the current 

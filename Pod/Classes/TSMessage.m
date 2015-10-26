@@ -27,6 +27,7 @@ static TSMessage *sharedMessage;
 static BOOL notificationActive;
 
 static BOOL _useiOS7Style;
+static BOOL _useBackgroundImage;
 
 
 __weak static UIViewController *_defaultViewController;
@@ -452,9 +453,12 @@ __weak static UIViewController *_defaultViewController;
 }
 
 
-+ (void)enableiOS7Style:(BOOL)enabled {
-    [TSMessage iOS7StyleEnabled]; // call
-    _useiOS7Style = enabled;
++ (void)shouldUseBackgroundImage:(BOOL)useBackgroundImage {
+    _useBackgroundImage = useBackgroundImage;
+}
+
++ (BOOL)useBackgroundImageInsteadOfBlur {
+    return _useBackgroundImage;
 }
 
 @end

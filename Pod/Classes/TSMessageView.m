@@ -251,9 +251,9 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             image = [UIImage imageNamed:[current valueForKey:@"imageName"]];
         }
 
-        if (![TSMessage iOS7StyleEnabled])
+        if (![TSMessage iOS7StyleEnabled] || [TSMessage useBackgroundImageInsteadOfBlur])
         {
-            self.alpha = 0.0;
+            self.alpha = [TSMessage useBackgroundImageInsteadOfBlur] ? 1.0 : 0.0;
 
             // add background image here
             UIImage *backgroundImage = [self bundledImageNamed:[current valueForKey:@"backgroundImageName"]];
