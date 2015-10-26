@@ -166,7 +166,7 @@
     [TSMessage addCustomDesignFromFileWithName:@"AlternativeDesign.json"];
     [TSMessage showNotificationWithTitle:NSLocalizedString(@"Updated to custom design file", nil)
                                     subtitle:NSLocalizedString(@"From now on, all the titles of success messages are larger", nil)
-                                    type:TSMessageNotificationTypeSuccess];
+                                    type:TSMessageNotificationTypeError];
 }
 
 

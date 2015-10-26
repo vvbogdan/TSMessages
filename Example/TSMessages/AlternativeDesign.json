@@ -69,6 +69,7 @@
         "shadowOffsetX": 0,
         "shadowOffsetY": -1,
         "textColor": "#FFFFFF",
-        "titleFontSize": 14
+        "titleFontSize": 14,
+        "iconOnRight": true
     }
 }

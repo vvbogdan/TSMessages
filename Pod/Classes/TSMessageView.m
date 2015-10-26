@@ -49,6 +49,8 @@ static NSMutableDictionary *_notificationDesign;
 @property (nonatomic, assign) CGFloat textSpaceLeft;
 @property (nonatomic, assign) CGFloat textSpaceRight;
 
+@property (nonatomic, assign) BOOL iconOnTheRight;
+
 @property (copy) void (^callback)();
 @property (copy) void (^buttonCallback)();
 
@@ -240,7 +242,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         }
 
         current = [notificationDesign valueForKey:currentString];
-
+        self.iconOnTheRight = [current[@"iconOnRight"] boolValue];
 
         if (!image && [[current valueForKey:@"imageName"] length])
         {
@@ -274,9 +276,17 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 
         UIColor *fontColor = [UIColor colorWithHexString:[current valueForKey:@"textColor"]];
 
+        
 
-        self.textSpaceLeft = 2 * padding;
-        if (image) self.textSpaceLeft += image.size.width + 2 * padding;
+        self.textSpaceLeft = padding;
+        
+        if (image) {
+            if (self.iconOnTheRight) {
+                self.textSpaceRight = image.size.width + 2 * padding;
+            } else {
+                self.textSpaceLeft = image.size.width + 2 * padding;
+            }
+        }
 
         // Set up title label
         _titleLabel = [[UILabel alloc] init];
@@ -329,8 +339,8 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         if (image)
         {
             _iconImageView = [[UIImageView alloc] initWithImage:image];
-            self.iconImageView.frame = CGRectMake(padding * 2,
-                                                  padding,
+            self.iconImageView.frame = CGRectMake(0,
+                                                  0,
                                                   image.size.width,
                                                   image.size.height);
             [self addSubview:self.iconImageView];
@@ -477,6 +487,12 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 
     if (self.iconImageView)
     {
+        CGFloat leftOffset = (self.iconOnTheRight) ? screenWidth - padding - self.iconImageView.frame.size.width : padding;
+        self.iconImageView.frame = CGRectMake(leftOffset,
+                                              self.iconImageView.frame.origin.y,
+                                              self.iconImageView.frame.size.width,
+                                              self.iconImageView.frame.size.height);
+        
         // Check if that makes the popup larger (height)
         if (self.iconImageView.frame.origin.y + self.iconImageView.frame.size.height + padding > currentHeight)
         {
