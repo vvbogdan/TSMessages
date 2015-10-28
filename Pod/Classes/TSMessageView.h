@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "TSMessage.h"
 
+@class TSMessageContentView;
+
 #define TSMessageViewAlpha 0.95
 
 
@@ -70,6 +72,9 @@
      buttonCallback:(void (^)())buttonCallback
          atPosition:(TSMessageNotificationPosition)position
 canBeDismissedByUser:(BOOL)dismissingEnabled;
+
+/**Custom content view */
+- (void)setCustomContentView:(TSMessageContentView *)contentView;
 
 /** Fades out this notification view */
 - (void)fadeMeOut;

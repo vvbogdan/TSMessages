@@ -28,6 +28,7 @@
 #define TS_SYSTEM_VERSION_LESS_THAN(v)            ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 @class TSMessageView;
+@class TSMessageContentView;
 
 
 /** Define on which position a specific TSMessage should be displayed */
@@ -39,6 +40,9 @@
 
 /** You can custimze the given TSMessageView, like setting its alpha or adding a subview */
 - (void)customizeMessageView:(TSMessageView *)messageView;
+
+/** You can customize TSMessageContentView(subtitle)*/
+- (TSMessageContentView *)customizeMessageContentView:(TSMessageView *)messageView;
 
 @end
 

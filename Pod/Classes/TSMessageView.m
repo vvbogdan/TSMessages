@@ -10,6 +10,7 @@
 #import "HexColors.h"
 #import "TSBlurView.h"
 #import "TSMessage.h"
+#import "TSMessageContentView.h"
 
 #define TSMessageViewMinimumPadding 15.0
 
@@ -39,7 +40,7 @@ static NSMutableDictionary *_notificationDesign;
 /** Internal properties needed to resize the view on device rotation properly */
 @property (nonatomic, strong) UILabel *titleLabel;
 
-@property (nonatomic, strong) UILabel *contentLabel;
+@property (nonatomic, strong) TSMessageContentView * contentView;
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIButton *button;
 @property (nonatomic, strong) UIView *borderView;
@@ -65,12 +66,12 @@ static NSMutableDictionary *_notificationDesign;
 }
 -(void) setContentFont:(UIFont *)contentFont{
     _contentFont = contentFont;
-    [self.contentLabel setFont:contentFont];
+    [self.contentView setContentFont:contentFont];
 }
 
 -(void) setContentTextColor:(UIColor *)contentTextColor{
     _contentTextColor = contentTextColor;
-    [self.contentLabel setTextColor:_contentTextColor];
+    [self.contentView setContentTextColor:_contentTextColor];
 }
 
 -(void) setTitleFont:(UIFont *)aTitleFont{
@@ -308,34 +309,6 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
         [self addSubview:self.titleLabel];
 
-        // Set up content label (if set)
-        if ([subtitle length])
-        {
-            _contentLabel = [[UILabel alloc] init];
-            [self.contentLabel setText:subtitle];
-
-            UIColor *contentTextColor = [UIColor colorWithHexString:[current valueForKey:@"contentTextColor"]];
-            if (!contentTextColor)
-            {
-                contentTextColor = fontColor;
-            }
-            [self.contentLabel setTextColor:contentTextColor];
-            [self.contentLabel setBackgroundColor:[UIColor clearColor]];
-            CGFloat fontSize = [[current valueForKey:@"contentFontSize"] floatValue];
-            NSString *fontName = [current valueForKey:@"contentFontName"];
-            if (fontName != nil) {
-                [self.contentLabel setFont:[UIFont fontWithName:fontName size:fontSize]];
-            } else {
-                [self.contentLabel setFont:[UIFont systemFontOfSize:fontSize]];
-            }
-            [self.contentLabel setShadowColor:self.titleLabel.shadowColor];
-            [self.contentLabel setShadowOffset:self.titleLabel.shadowOffset];
-            self.contentLabel.lineBreakMode = self.titleLabel.lineBreakMode;
-            self.contentLabel.numberOfLines = 0;
-
-            [self addSubview:self.contentLabel];
-        }
-
         if (image)
         {
             _iconImageView = [[UIImageView alloc] initWithImage:image];
@@ -399,6 +372,34 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             self.textSpaceRight = self.button.frame.size.width + padding;
         }
 
+
+        // Set up content label (if set)
+        if ([subtitle length])
+        {
+            _contentView = [[TSMessageContentView alloc] init];
+            [_contentView setText:subtitle];
+
+
+            UIColor *contentTextColor = [UIColor colorWithHexString:[current valueForKey:@"contentTextColor"]];
+            if (!contentTextColor)
+            {
+                contentTextColor = fontColor;
+            }
+            [_contentView setContentTextColor:contentTextColor];
+            [_contentView setBackgroundColor:[UIColor clearColor]];
+            CGFloat fontSize = [[current valueForKey:@"contentFontSize"] floatValue];
+            NSString *fontName = [current valueForKey:@"contentFontName"];
+            if (fontName != nil) {
+                [_contentView setContentFont:[UIFont fontWithName:fontName size:fontSize]];
+            } else {
+                [_contentView setContentFont:[UIFont systemFontOfSize:fontSize]];
+            }
+            [_contentView.contentLabel setShadowColor:self.titleLabel.shadowColor];
+            [_contentView.contentLabel setShadowOffset:self.titleLabel.shadowOffset];
+            _contentView.contentLabel.lineBreakMode = self.titleLabel.lineBreakMode;
+
+            [self setCustomContentView:_contentView];
+        }
         // Add a border on the bottom (or on the top, depending on the view's postion)
         if (![TSMessage iOS7StyleEnabled])
         {
@@ -469,13 +470,13 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 
     if ([self.subtitle length])
     {
-        self.contentLabel.frame = CGRectMake(self.textSpaceLeft,
+        self.contentView.frame = CGRectMake(self.textSpaceLeft,
                                              self.titleLabel.frame.origin.y + self.titleLabel.frame.size.height + 5.0,
                                              screenWidth - padding - self.textSpaceLeft - self.textSpaceRight,
                                              0.0);
-        [self.contentLabel sizeToFit];
+        [self.contentView sizeToFit];
 
-        currentHeight = self.contentLabel.frame.origin.y + self.contentLabel.frame.size.height;
+        currentHeight = self.contentView.frame.origin.y + self.contentView.frame.size.height;
     }
     else
     {
@@ -573,6 +574,17 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     [super layoutSubviews];
     [self updateHeightOfMessageView];
 }
+
+- (void)setCustomContentView:(TSMessageContentView *)contentView {
+    if ( self.contentView ) {
+        [self.contentView removeFromSuperview];
+    }
+
+    [self addSubview:_contentView];
+
+    [self setNeedsLayout];
+}
+
 
 - (void)fadeMeOut
 {

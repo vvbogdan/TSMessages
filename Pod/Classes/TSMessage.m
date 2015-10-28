@@ -8,6 +8,7 @@
 
 #import "TSMessage.h"
 #import "TSMessageView.h"
+#import "TSMessageContentView.h"
 
 #define kTSMessageDisplayTime 1.5
 #define kTSMessageExtraDisplayTimePerPixel 0.04
@@ -266,9 +267,13 @@ __weak static UIViewController *_defaultViewController;
     {
         [self.delegate customizeMessageView:currentView];
     }
-    
-    
-    
+
+
+    if (self.delegate && [self.delegate respondsToSelector:@selector(customizeMessageContentView:)])
+    {
+        [currentView setCustomContentView:[self.delegate customizeMessageContentView:currentView]];
+    }
+
     dispatch_block_t animationBlock = ^{
         currentView.center = toPoint;
         if (![TSMessage iOS7StyleEnabled]) {
