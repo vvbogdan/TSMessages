@@ -12,7 +12,8 @@ typedef enum {
     TSMessageNotificationTypeMessage = 0,
     TSMessageNotificationTypeWarning,
     TSMessageNotificationTypeError,
-    TSMessageNotificationTypeSuccess
+    TSMessageNotificationTypeSuccess,
+    TSMessageNotificationTypeCustom
 } TSMessageNotificationType;
 
 @interface TSMessage : NSObject

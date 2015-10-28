@@ -12,6 +12,7 @@
 #define kTSMessageDisplayTime 1.5
 #define kTSMessageExtraDisplayTimePerPixel 0.04
 #define kTSMessageAnimationDuration 0.3
+#define kTSMessageDefaultHeight 100
 
 @interface TSMessage ()
 
@@ -65,7 +66,8 @@ static BOOL notificationActive;
                                  withTitle:title
                                withMessage:message
                                   withType:type
-                              withDuration:0.0];
+                              withDuration:kTSMessageAnimationDuration + kTSMessageDisplayTime + kTSMessageDefaultHeight * kTSMessageExtraDisplayTimePerPixel
+    ];
 }
 
 + (void)showNotificationInViewController:(UIViewController *)viewController
@@ -184,17 +186,15 @@ static BOOL notificationActive;
      }];
     
     
-    if (currentView.duration == 0.0)
+    if (currentView.duration != 0.0)
     {
-        currentView.duration = kTSMessageAnimationDuration + kTSMessageDisplayTime + currentView.frame.size.height * kTSMessageExtraDisplayTimePerPixel;
+        dispatch_async(dispatch_get_main_queue(), ^
+        {
+            [self performSelector:@selector(fadeOutNotification:)
+                       withObject:currentView
+                       afterDelay:currentView.duration];
+        });
     }
-    
-    dispatch_async(dispatch_get_main_queue(), ^
-    {
-        [self performSelector:@selector(fadeOutNotification:)
-                   withObject:currentView
-                   afterDelay:currentView.duration];
-    });
 }
 
 - (void)fadeOutNotification:(TSMessageView *)currentView
