@@ -115,6 +115,26 @@ static BOOL notificationActive;
     }
 }
 
+
++ (void)showNotificationInViewController:(UIViewController *)viewController
+                          withCustomView:(TSMessageView *)customView
+{
+    for (TSMessageView *n in [TSMessage sharedMessage].messages)
+    {
+        if ([n.title isEqualToString:customView.title] && [n.content isEqualToString:customView.content])
+        {
+            return; // avoid showing the same messages twice in a row
+        }
+    }
+
+    [[TSMessage sharedMessage].messages addObject:customView];
+
+    if (!notificationActive)
+    {
+        [[TSMessage sharedMessage] fadeInCurrentNotification];
+    }
+}
+
 #pragma mark Example uses
 
 + (void)showInternetError

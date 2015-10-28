@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class TSMessageView;
+
 typedef enum {
     TSMessageNotificationTypeMessage = 0,
     TSMessageNotificationTypeWarning,
@@ -75,6 +77,8 @@ typedef enum {
                             withDuration:(NSTimeInterval)duration
                             withCallback:(void (^)())callback;
 
+
++ (void)showNotificationInViewController:(UIViewController *)viewController withCustomView:(TSMessageView *)customView;
 
 /** Shows a predefined error message, that is displayed, when this action requires an internet connection */
 + (void)showInternetError;
