@@ -10,6 +10,7 @@
 #import "TSDemoViewController.h"
 #import "TSMessage.h"
 #import "TSMessageView.h"
+#import "TSCustomMessageContentView.h"
 
 @implementation TSDemoViewController
 
@@ -159,6 +160,30 @@
                                 subtitle:NSLocalizedString(@"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus", nil)
                                     type:TSMessageNotificationTypeWarning];
 }
+
+
+- (IBAction)didTapCustomContentView:(id)sender
+{
+    [TSMessage setDelegate:self];
+    [TSMessage showNotificationWithTitle:NSLocalizedString(@"With 'Text' I meant a long text, so here it is", nil)
+                                subtitle:NSLocalizedString(@"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus", nil)
+                                    type:TSMessageNotificationTypeError];
+
+}
+
+
+#pragma mark - TSMessageViewProtocol -
+
+- (TSMessageContentView *)customizeMessageContentView:(TSMessageView *)messageView {
+    return ({
+        TSCustomMessageContentView * contentView = [TSCustomMessageContentView new];
+        [contentView setText:messageView.subtitle];
+        [contentView setContentTextColor:messageView.contentTextColor];
+        [contentView setContentFont:messageView.contentFont];
+        contentView;
+    });
+}
+
 
 - (IBAction)didTapCustomDesign:(id)sender
 {

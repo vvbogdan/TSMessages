@@ -189,6 +189,13 @@
                                     <action selector="didTapNavBarOverlay:" destination="3" eventType="touchUpInside" id="AvL-3e-c2g"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9rc-ak-YzB">
+                                <rect key="frame" x="96" y="278" width="115" height="30"/>
+                                <state key="normal" title="Custom content"/>
+                                <connections>
+                                    <action selector="didTapCustomContentView:" destination="3" eventType="touchUpInside" id="SgJ-4J-gFp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>

@@ -23,6 +23,7 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		6003F5BC195388D20070C39A /* Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6003F5BB195388D20070C39A /* Tests.m */; };
+		7A6E65AF29734D9799DBC5D5 /* TSCustomMessageContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A6E6D33FB9FDAB058206E03 /* TSCustomMessageContentView.m */; };
 		CACA6CED19AB263400824626 /* TSDemoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CACA6CEC19AB263400824626 /* TSDemoViewController.m */; };
 		CAFB4A5D19ADC8CA004B4A82 /* AlternativeDesign.json in Resources */ = {isa = PBXBuildFile; fileRef = CAFB4A5C19ADC8CA004B4A82 /* AlternativeDesign.json */; };
 /* End PBXBuildFile section */
@@ -64,6 +65,8 @@
 		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		60FDB524217248DC8C80BCC7 /* TSMessages.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = TSMessages.podspec; path = ../TSMessages.podspec; sourceTree = "<group>"; };
+		7A6E60D7D76F6129C2704E23 /* TSCustomMessageContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSCustomMessageContentView.h; sourceTree = "<group>"; };
+		7A6E6D33FB9FDAB058206E03 /* TSCustomMessageContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSCustomMessageContentView.m; sourceTree = "<group>"; };
 		CACA6CEB19AB263400824626 /* TSDemoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TSDemoViewController.h; sourceTree = "<group>"; };
 		CACA6CEC19AB263400824626 /* TSDemoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TSDemoViewController.m; sourceTree = "<group>"; };
 		CAFB4A5C19ADC8CA004B4A82 /* AlternativeDesign.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = AlternativeDesign.json; sourceTree = "<group>"; };
@@ -156,6 +159,8 @@
 				6003F5A6195388D20070C39A /* TSViewController.m */,
 				6003F5A8195388D20070C39A /* Images.xcassets */,
 				6003F594195388D20070C39A /* Supporting Files */,
+				7A6E6D33FB9FDAB058206E03 /* TSCustomMessageContentView.m */,
+				7A6E60D7D76F6129C2704E23 /* TSCustomMessageContentView.h */,
 			);
 			path = TSMessages;
 			sourceTree = "<group>";
@@ -402,6 +407,7 @@
 				6003F59E195388D20070C39A /* TSAppDelegate.m in Sources */,
 				6003F5A7195388D20070C39A /* TSViewController.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
+				7A6E65AF29734D9799DBC5D5 /* TSCustomMessageContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

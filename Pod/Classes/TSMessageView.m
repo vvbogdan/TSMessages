@@ -576,9 +576,15 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 }
 
 - (void)setCustomContentView:(TSMessageContentView *)contentView {
+    if ( contentView == nil || ![contentView isKindOfClass:[TSMessageContentView class]] ) {
+        return;
+    }
+
     if ( self.contentView ) {
         [self.contentView removeFromSuperview];
     }
+
+    _contentView = contentView;
 
     [self addSubview:_contentView];
 
