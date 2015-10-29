@@ -69,6 +69,7 @@
    inViewController:(UIViewController *)viewController
            callback:(void (^)())callback
         buttonTitle:(NSString *)buttonTitle
+        buttonImage:(UIImage *)buttonImage
      buttonCallback:(void (^)())buttonCallback
          atPosition:(TSMessageNotificationPosition)position
 canBeDismissedByUser:(BOOL)dismissingEnabled;

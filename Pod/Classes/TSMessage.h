@@ -157,6 +157,20 @@ typedef NS_ENUM(NSInteger,TSMessageNotificationDuration) {
                                 duration:(NSTimeInterval)duration
                                 callback:(void (^)())callback
                              buttonTitle:(NSString *)buttonTitle
+                             buttonImage:(UIImage *)buttonImage
+                          buttonCallback:(void (^)())buttonCallback
+                              atPosition:(TSMessageNotificationPosition)messagePosition
+                    canBeDismissedByUser:(BOOL)dismissingEnabled;
+
++ (void)showNotificationInViewController:(UIViewController *)viewController
+                                   title:(NSString *)title
+                             contentView:(TSMessageContentView *)contentView
+                                   image:(UIImage *)image
+                                    type:(TSMessageNotificationType)type
+                                duration:(NSTimeInterval)duration
+                                callback:(void (^)())callback
+                             buttonTitle:(NSString *)buttonTitle
+                             buttonImage:(UIImage *)buttonImage
                           buttonCallback:(void (^)())buttonCallback
                               atPosition:(TSMessageNotificationPosition)messagePosition
                     canBeDismissedByUser:(BOOL)dismissingEnabled;

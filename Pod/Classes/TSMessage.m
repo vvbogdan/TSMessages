@@ -77,6 +77,7 @@ __weak static UIViewController *_defaultViewController;
                                   duration:duration
                                   callback:nil
                                buttonTitle:nil
+                               buttonImage:nil
                             buttonCallback:nil
                                 atPosition:TSMessageNotificationPositionTop
                        canBeDismissedByUser:YES];
@@ -97,6 +98,7 @@ __weak static UIViewController *_defaultViewController;
                                   duration:duration
                                   callback:nil
                                buttonTitle:nil
+                               buttonImage:nil
                             buttonCallback:nil
                                 atPosition:TSMessageNotificationPositionTop
                        canBeDismissedByUser:dismissingEnabled];
@@ -115,6 +117,7 @@ __weak static UIViewController *_defaultViewController;
                                   duration:TSMessageNotificationDurationAutomatic
                                   callback:nil
                                buttonTitle:nil
+                               buttonImage:nil
                             buttonCallback:nil
                                 atPosition:TSMessageNotificationPositionTop
                       canBeDismissedByUser:YES];
@@ -129,6 +132,7 @@ __weak static UIViewController *_defaultViewController;
                                 duration:(NSTimeInterval)duration
                                 callback:(void (^)())callback
                              buttonTitle:(NSString *)buttonTitle
+                             buttonImage:(UIImage *)buttonImage
                           buttonCallback:(void (^)())buttonCallback
                               atPosition:(TSMessageNotificationPosition)messagePosition
                     canBeDismissedByUser:(BOOL)dismissingEnabled
@@ -142,9 +146,41 @@ __weak static UIViewController *_defaultViewController;
                                            inViewController:viewController
                                                    callback:callback
                                                 buttonTitle:buttonTitle
+                                                buttonImage:buttonImage
                                              buttonCallback:buttonCallback
                                                  atPosition:messagePosition
                                        canBeDismissedByUser:dismissingEnabled];
+    [self prepareNotificationToBeShown:v];
+}
+
+
++ (void)showNotificationInViewController:(UIViewController *)viewController
+                                   title:(NSString *)title
+                                contentView:(TSMessageContentView *)contentView
+                                   image:(UIImage *)image
+                                    type:(TSMessageNotificationType)type
+                                duration:(NSTimeInterval)duration
+                                callback:(void (^)())callback
+                             buttonTitle:(NSString *)buttonTitle
+                             buttonImage:(UIImage *)buttonImage
+                          buttonCallback:(void (^)())buttonCallback
+                              atPosition:(TSMessageNotificationPosition)messagePosition
+                    canBeDismissedByUser:(BOOL)dismissingEnabled
+{
+    // Create the TSMessageView
+    TSMessageView *v = [[TSMessageView alloc] initWithTitle:title
+                                                   subtitle:contentView.text
+                                                      image:image
+                                                       type:type
+                                                   duration:duration
+                                           inViewController:viewController
+                                                   callback:callback
+                                                buttonTitle:buttonTitle
+                                                buttonImage:buttonImage
+                                             buttonCallback:buttonCallback
+                                                 atPosition:messagePosition
+                                       canBeDismissedByUser:dismissingEnabled];
+    [v setCustomContentView:contentView];
     [self prepareNotificationToBeShown:v];
 }
 

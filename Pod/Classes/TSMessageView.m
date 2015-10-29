@@ -43,6 +43,7 @@ static NSMutableDictionary *_notificationDesign;
 @property (nonatomic, strong) TSMessageContentView * contentView;
 @property (nonatomic, strong) UIImageView *iconImageView;
 @property (nonatomic, strong) UIButton *button;
+@property (nonatomic, strong) UIImage *buttonImage;
 @property (nonatomic, strong) UIView *borderView;
 @property (nonatomic, strong) UIImageView *backgroundImageView;
 @property (nonatomic, strong) TSBlurView *backgroundBlurView; // Only used in iOS 7
@@ -192,6 +193,7 @@ static NSMutableDictionary *_notificationDesign;
    inViewController:(UIViewController *)viewController
            callback:(void (^)())callback
         buttonTitle:(NSString *)buttonTitle
+        buttonImage:(UIImage *)buttonImage
      buttonCallback:(void (^)())buttonCallback
          atPosition:(TSMessageNotificationPosition)position
 canBeDismissedByUser:(BOOL)dismissingEnabled
@@ -206,6 +208,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         _duration = duration;
         _viewController = viewController;
         _messagePosition = position;
+        _buttonImage = buttonImage;
         self.callback = callback;
         self.buttonCallback = buttonCallback;
 
@@ -245,11 +248,11 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         current = [notificationDesign valueForKey:currentString];
         self.iconOnTheRight = [current[@"iconOnRight"] boolValue];
 
-        if (!image && [[current valueForKey:@"imageName"] length])
+        if (!buttonImage && !image && [[current valueForKey:@"imageName"] length])
         {
             image = [self bundledImageNamed:[current valueForKey:@"imageName"]];
         }
-        if (!image && [[current valueForKey:@"imageName"] length])
+        if (!buttonImage && !image && [[current valueForKey:@"imageName"] length])
         {
             image = [UIImage imageNamed:[current valueForKey:@"imageName"]];
         }
@@ -280,7 +283,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         
 
         self.textSpaceLeft = padding;
-        
+
         if (image) {
             if (self.iconOnTheRight) {
                 self.textSpaceRight = image.size.width + 2 * padding;
@@ -320,42 +323,47 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         }
 
         // Set up button (if set)
-        if ([buttonTitle length])
+        if ([buttonTitle length] || buttonImage)
         {
             _button = [UIButton buttonWithType:UIButtonTypeCustom];
 
+            if ( buttonImage && buttonTitle.length == 0 ) {
+                [self.button setImage:buttonImage forState:UIControlStateNormal];
+            } else {
+                UIImage *buttonBackgroundImage = [self bundledImageNamed:[current valueForKey:@"buttonBackgroundImageName"]];
 
-            UIImage *buttonBackgroundImage = [self bundledImageNamed:[current valueForKey:@"buttonBackgroundImageName"]];
-
-            buttonBackgroundImage = [buttonBackgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 12.0, 15.0, 11.0)];
-
-            if (!buttonBackgroundImage)
-            {
-                buttonBackgroundImage = [self bundledImageNamed:[current valueForKey:@"NotificationButtonBackground"]];
                 buttonBackgroundImage = [buttonBackgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 12.0, 15.0, 11.0)];
+
+                if (!buttonBackgroundImage)
+                {
+                    buttonBackgroundImage = [self bundledImageNamed:[current valueForKey:@"NotificationButtonBackground"]];
+                    buttonBackgroundImage = [buttonBackgroundImage resizableImageWithCapInsets:UIEdgeInsetsMake(15.0, 12.0, 15.0, 11.0)];
+                }
+
+                [self.button setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
+                [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
+
+                UIColor *buttonTitleShadowColor = [UIColor colorWithHexString:[current valueForKey:@"buttonTitleShadowColor"]];
+                if (!buttonTitleShadowColor)
+                {
+                    buttonTitleShadowColor = self.titleLabel.shadowColor;
+                }
+
+                [self.button setTitleShadowColor:buttonTitleShadowColor forState:UIControlStateNormal];
+
+                UIColor *buttonTitleTextColor = [UIColor colorWithHexString:[current valueForKey:@"buttonTitleTextColor"]];
+                if (!buttonTitleTextColor)
+                {
+                    buttonTitleTextColor = fontColor;
+                }
+
+                [self.button setTitleColor:buttonTitleTextColor forState:UIControlStateNormal];
+                self.button.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
+                self.button.titleLabel.shadowOffset = CGSizeMake([[current valueForKey:@"buttonTitleShadowOffsetX"] floatValue],
+                        [[current valueForKey:@"buttonTitleShadowOffsetY"] floatValue]);
+
             }
 
-            [self.button setBackgroundImage:buttonBackgroundImage forState:UIControlStateNormal];
-            [self.button setTitle:self.buttonTitle forState:UIControlStateNormal];
-
-            UIColor *buttonTitleShadowColor = [UIColor colorWithHexString:[current valueForKey:@"buttonTitleShadowColor"]];
-            if (!buttonTitleShadowColor)
-            {
-                buttonTitleShadowColor = self.titleLabel.shadowColor;
-            }
-
-            [self.button setTitleShadowColor:buttonTitleShadowColor forState:UIControlStateNormal];
-
-            UIColor *buttonTitleTextColor = [UIColor colorWithHexString:[current valueForKey:@"buttonTitleTextColor"]];
-            if (!buttonTitleTextColor)
-            {
-                buttonTitleTextColor = fontColor;
-            }
-
-            [self.button setTitleColor:buttonTitleTextColor forState:UIControlStateNormal];
-            self.button.titleLabel.font = [UIFont boldSystemFontOfSize:14.0];
-            self.button.titleLabel.shadowOffset = CGSizeMake([[current valueForKey:@"buttonTitleShadowOffsetX"] floatValue],
-                                                             [[current valueForKey:@"buttonTitleShadowOffsetY"] floatValue]);
             [self.button addTarget:self
                             action:@selector(buttonTapped:)
                   forControlEvents:UIControlEventTouchUpInside];
