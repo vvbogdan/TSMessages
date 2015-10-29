@@ -64,6 +64,7 @@
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:nil
                                     buttonTitle:NSLocalizedString(@"Update", nil)
+                                    buttonImage:nil
                                  buttonCallback:^{
                                      [TSMessage showNotificationWithTitle:NSLocalizedString(@"Thanks for updating", nil)
                                                                      type:TSMessageNotificationTypeSuccess];
@@ -99,6 +100,7 @@
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:nil
                                     buttonTitle:nil
+                                    buttonImage:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
@@ -119,6 +121,7 @@
                                        duration:TSMessageNotificationDurationEndless
                                        callback:nil
                                     buttonTitle:nil
+                                    buttonImage:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                             canBeDismissedByUser:NO];
@@ -134,6 +137,7 @@
                                        duration:10.0
                                        callback:nil
                                     buttonTitle:nil
+                                    buttonImage:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionTop
                            canBeDismissedByUser:YES];
@@ -149,6 +153,7 @@
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:nil
                                     buttonTitle:nil
+                                    buttonImage:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionBottom
                             canBeDismissedByUser:YES];
@@ -164,26 +169,23 @@
 
 - (IBAction)didTapCustomContentView:(id)sender
 {
-    [TSMessage setDelegate:self];
-    [TSMessage showNotificationWithTitle:NSLocalizedString(@"With 'Text' I meant a long text, so here it is", nil)
-                                subtitle:NSLocalizedString(@"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus", nil)
-                                    type:TSMessageNotificationTypeError];
+    TSCustomMessageContentView * messageContentView = [TSCustomMessageContentView new];
+    [messageContentView setText:NSLocalizedString(@"Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus", nil)];
+
+    [TSMessage showNotificationInViewController:self.navigationController
+                                          title:NSLocalizedString(@"With 'Text' I meant a long text, so here it is", nil)
+                                       contentView:messageContentView
+                                          image:nil
+                                           type:TSMessageNotificationTypeSuccess
+                                       duration:TSMessageNotificationDurationAutomatic
+                                       callback:nil
+                                    buttonTitle:nil
+                                    buttonImage:nil
+                                 buttonCallback:nil
+                                     atPosition:TSMessageNotificationPositionNavBarOverlay
+                           canBeDismissedByUser:YES];
 
 }
-
-
-#pragma mark - TSMessageViewProtocol -
-
-- (TSMessageContentView *)customizeMessageContentView:(TSMessageView *)messageView {
-    return ({
-        TSCustomMessageContentView * contentView = [TSCustomMessageContentView new];
-        [contentView setText:messageView.subtitle];
-        [contentView setContentTextColor:messageView.contentTextColor];
-        [contentView setContentFont:messageView.contentFont];
-        contentView;
-    });
-}
-
 
 - (IBAction)didTapCustomDesign:(id)sender
 {
@@ -209,6 +211,7 @@
                                        duration:TSMessageNotificationDurationAutomatic
                                        callback:nil
                                     buttonTitle:nil
+                                    buttonImage:nil
                                  buttonCallback:nil
                                      atPosition:TSMessageNotificationPositionNavBarOverlay
                            canBeDismissedByUser:YES];
