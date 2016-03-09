@@ -53,6 +53,8 @@ static NSMutableDictionary *_notificationDesign;
 
 @property (nonatomic, assign) BOOL iconOnTheRight;
 
+@property (nonatomic, assign) CGFloat minimumPaddingTop;
+
 @property (copy) void (^callback)();
 @property (copy) void (^buttonCallback)();
 
@@ -65,6 +67,12 @@ static NSMutableDictionary *_notificationDesign;
 @implementation TSMessageView{
     TSMessageNotificationType notificationType;
 }
+
+-(CGFloat)minimumPaddingTop {
+    return _minimumPaddingTop == -1 ? [self padding] : _minimumPaddingTop;
+}
+
+
 -(void) setContentFont:(UIFont *)contentFont{
     _contentFont = contentFont;
     [self.contentView setContentFont:contentFont];
@@ -202,6 +210,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 
     if ((self = [self init]))
     {
+        _minimumPaddingTop = -1;
         _title = title;
         _subtitle = subtitle;
         _buttonTitle = buttonTitle;
@@ -247,6 +256,11 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
 
         current = [notificationDesign valueForKey:currentString];
         self.iconOnTheRight = [current[@"iconOnRight"] boolValue];
+        
+        if ( [current valueForKey:@"paddingTop"] )
+        {
+            _minimumPaddingTop = [[current valueForKey:@"paddingTop"] floatValue];
+        }
 
         if (!buttonImage && !image && [[current valueForKey:@"imageName"] length])
         {
@@ -409,7 +423,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
             [self setCustomContentView:_contentView];
         }
         // Add a border on the bottom (or on the top, depending on the view's postion)
-        if (![TSMessage iOS7StyleEnabled])
+        if (![TSMessage iOS7StyleEnabled] || ([current valueForKey:@"borderHeight"] && [current valueForKey:@"borderColor"]))
         {
             _borderView = [[UIView alloc] initWithFrame:CGRectMake(0.0,
                                                                    0.0, // will be set later
@@ -471,7 +485,7 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     CGFloat padding = [self padding];
 
     self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
-                                       padding,
+                                       self.minimumPaddingTop,
                                        screenWidth - padding - self.textSpaceLeft - self.textSpaceRight,
                                        0.0);
     [self.titleLabel sizeToFit];
