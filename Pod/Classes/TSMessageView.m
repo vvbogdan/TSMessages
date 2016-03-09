@@ -321,6 +321,21 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
         [self.titleLabel setShadowColor:[UIColor hx_colorWithHexString:[current valueForKey:@"shadowColor"]]];
         [self.titleLabel setShadowOffset:CGSizeMake([[current valueForKey:@"shadowOffsetX"] floatValue],
                                                     [[current valueForKey:@"shadowOffsetY"] floatValue])];
+        NSString *align = [current valueForKey:@"titleAlign"];
+        if (align != nil) {
+            if ( [align isEqualToString:@"left"] ) {
+                [self.titleLabel setTextAlignment: NSTextAlignmentLeft];
+            }
+            
+            if ( [align isEqualToString:@"right"] ) {
+                [self.titleLabel setTextAlignment: NSTextAlignmentRight];
+            }
+            
+            if ( [align isEqualToString:@"center"] ) {
+                [self.titleLabel setTextAlignment: NSTextAlignmentCenter];
+            }
+            [self.titleLabel setFont:[UIFont fontWithName:fontName size:fontSize]];
+        }
 
         self.titleLabel.numberOfLines = 0;
         self.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
@@ -483,12 +498,16 @@ canBeDismissedByUser:(BOOL)dismissingEnabled
     CGFloat currentHeight;
     CGFloat screenWidth = self.viewController.view.bounds.size.width;
     CGFloat padding = [self padding];
-
+    
     self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
                                        self.minimumPaddingTop,
                                        screenWidth - padding - self.textSpaceLeft - self.textSpaceRight,
                                        0.0);
     [self.titleLabel sizeToFit];
+    self.titleLabel.frame = CGRectMake(self.textSpaceLeft,
+                                       self.titleLabel.frame.origin.y,
+                                       screenWidth - padding - self.textSpaceLeft - self.textSpaceRight,
+                                       self.titleLabel.frame.size.height);
 
     if ([self.subtitle length])
     {
